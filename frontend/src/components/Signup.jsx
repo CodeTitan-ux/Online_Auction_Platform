@@ -73,6 +73,7 @@ function Signup() {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
+							autoComplete="username"
 						/>
 					</div>
 					<div className="flex items-center border rounded-md border-gray-600 bg-gray-700">
