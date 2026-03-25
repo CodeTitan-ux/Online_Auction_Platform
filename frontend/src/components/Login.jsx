@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FiMail, FiLock } from "react-icons/fi";
@@ -23,10 +23,9 @@ function Login() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const res = await axios.post(
-				"/api/users/login",
-				{ email, password },
-				{ withCredentials: true }
+			const res = await api.post(
+				"/users/login",
+				{ email, password }
 			);
 			if (res.status === 200) {
 				login();
@@ -62,6 +61,7 @@ function Login() {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
+							autoComplete="email"
 						/>
 					</div>
 					<div className="flex items-center border rounded-md border-gray-600 bg-gray-700">
@@ -73,6 +73,7 @@ function Login() {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
+							autoComplete="current-password"
 						/>
 					</div>
 					<div className="flex items-center justify-between mt-4">

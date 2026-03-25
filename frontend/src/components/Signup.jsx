@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { FiUser, FiMail, FiLock } from "react-icons/fi";
@@ -25,10 +25,9 @@ function Signup() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const res = await axios.post(
-				"/api/users/register",
-				{ username, email, password, confirmPassword },
-				{ withCredentials: true }
+			const res = await api.post(
+				"/users/register",
+				{ username, email, password, confirmPassword }
 			);
 			if (res.status === 201) {
 				navigate("/login");
@@ -85,6 +84,7 @@ function Signup() {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
+							autoComplete="new-password"
 						/>
 					</div>
 					<div className="flex items-center border rounded-md border-gray-600 bg-gray-700">
@@ -96,6 +96,7 @@ function Signup() {
 							value={confirmPassword}
 							onChange={(e) => setConfirmPassword(e.target.value)}
 							required
+							autoComplete="new-password"
 						/>
 					</div>
 					<div className="flex items-center justify-between mt-4">
