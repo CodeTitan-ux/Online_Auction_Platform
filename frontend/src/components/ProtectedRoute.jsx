@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
 	const location = useLocation();
-	const token = document.cookie
-		.split("; ")
-		.find((row) => row.startsWith("jwt="))
-		?.split("=")[1];
+	const token = localStorage.getItem("token");
 
 	return token ? (
 		<Component {...rest} />

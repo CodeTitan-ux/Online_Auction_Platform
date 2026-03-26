@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { Link } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 3;
@@ -18,95 +18,47 @@ function Profile() {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						"/api/users/profile",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setUser(res.data);
-				} catch (error) {
-					console.error(error);
-				}
+			try {
+				const res = await api.post("/users/profile", {});
+				setUser(res.data);
+			} catch (error) {
+				console.error(error);
 			}
 		};
 
 		const fetchAuctions = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						"/api/auctions/user",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setAuctions(res.data.auctionItems);
-					setTotalPagesAuctions(
-						Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
-					);
-				} catch (error) {
-					console.error(error);
-				}
+			try {
+				const res = await api.post("/auctions/user", {});
+				setAuctions(res.data.auctionItems);
+				setTotalPagesAuctions(
+					Math.ceil(res.data.auctionItems.length / ITEMS_PER_PAGE)
+				);
+			} catch (error) {
+				console.error(error);
 			}
 		};
 
 		const fetchBids = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						"/api/bids/user",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setBids(res.data.bids);
-					setTotalPagesBids(
-						Math.ceil(res.data.bids.length / ITEMS_PER_PAGE)
-					);
-				} catch (error) {
-					console.error(error);
-				}
+			try {
+				const res = await api.post("/bids/user", {});
+				setBids(res.data.bids);
+				setTotalPagesBids(
+					Math.ceil(res.data.bids.length / ITEMS_PER_PAGE)
+				);
+			} catch (error) {
+				console.error(error);
 			}
 		};
 
 		const fetchWonAuctions = async () => {
-			const token = document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("jwt="))
-				?.split("=")[1];
-			if (token) {
-				try {
-					const res = await axios.post(
-						"/api/auctions/won",
-						{},
-						{
-							headers: { Authorization: `Bearer ${token}` },
-						}
-					);
-					setWonAuctions(res.data.wonAuctions);
-					setTotalPagesWon(
-						Math.ceil(res.data.wonAuctions.length / ITEMS_PER_PAGE)
-					);
-				} catch (error) {
-					console.error(error);
-				}
+			try {
+				const res = await api.post("/auctions/won", {});
+				setWonAuctions(res.data.wonAuctions);
+				setTotalPagesWon(
+					Math.ceil(res.data.wonAuctions.length / ITEMS_PER_PAGE)
+				);
+			} catch (error) {
+				console.error(error);
 			}
 		};
 

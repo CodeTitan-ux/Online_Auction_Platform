@@ -25,18 +25,14 @@ function App() {
 		setIsLoggedIn(false);
 	};
 
-	const token = document.cookie
-		.split("; ")
-		.find((row) => row.startsWith("jwt="))
-		?.split("=")[1];
-
 	useEffect(() => {
+		const token = localStorage.getItem("token");
 		if (token) {
-			login();
+			setIsLoggedIn(true);
 		} else {
-			logout();
+			setIsLoggedIn(false);
 		}
-	}, [token]);
+	}, []);
 
 	return (
 		<AuthProvider value={{ isLoggedIn, login, logout }}>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import { useAuth } from "../contexts/AuthContext";
 
 function Logout() {
@@ -10,9 +10,9 @@ function Logout() {
 	useEffect(() => {
 		const logout = async () => {
 			try {
-				await axios.post("/api/users/logout", {});
-				document.cookie =
-					"jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+				await api.post("/users/logout", {});
+				localStorage.removeItem("token");
+				localStorage.removeItem("user");
 				signout();
 				navigate("/login");
 			} catch (err) {
