@@ -47,14 +47,7 @@ const getAuctionItemById = async (req, res) => {
 
 const getAuctionItemsByUser = async (req, res) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1];
-		const { id } = jwt.decode(token, process.env.JWT_SECRET, (err) => {
-			if (err) {
-				console.log(err);
-				return res.status(500).json({ message: err.message });
-			}
-		});
-		const auctionItems = await AuctionItem.find({ createdBy: id });
+		const auctionItems = await AuctionItem.find({ createdBy: req.user.id });
 		res.status(200).json({
 			auctionItems,
 		});
@@ -167,9 +160,7 @@ const getAuctionWinner = async (req, res) => {
 
 const getAuctionsWonByUser = async (req, res) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1];
-		const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-		const { id } = decodedToken;
+		const id = req.user.id;
 
 		const bidsByUser = await Bid.find({ userId: id });
 		const auctionIds = bidsByUser.map((bid) => bid.auctionItemId);

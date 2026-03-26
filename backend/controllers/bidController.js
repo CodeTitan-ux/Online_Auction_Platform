@@ -70,14 +70,7 @@ const getBidHistory = async (req, res) => {
 
 const getBidsByUser = async (req, res) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1];
-
-		const { id } = jwt.decode(token, process.env.JWT_SECRET, (err) => {
-			if (err) {
-				console.log(err);
-				return res.status(500).json({ message: err.message });
-			}
-		});
+		const id = req.user.id;
 
 		let bids = await Bid.find({ userId: id });
 		bids = await Promise.all(
